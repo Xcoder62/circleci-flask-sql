@@ -19,13 +19,19 @@ jobs:
           POSTGRES_PASSWORD: ""
     steps:
       - checkout
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements/dev.txt" }}
       - run:
-          name: Install Python depedencies in a Venv
+          name: Install Python dependencies in a Venv
           command: |
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements/dev.txt
-      - run: echo ${FLASK_CONFIG} # uses image's env variable
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements/dev.txt" }}
+          paths:
+            - "venv"
+      - run: echo ${FLASK_CONFIG} && echo "Cache of venv saved" # uses image's env variable
       - run:
           command: echo ${FLASK_CONFIG}
           environment:
