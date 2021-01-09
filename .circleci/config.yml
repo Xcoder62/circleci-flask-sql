@@ -56,6 +56,7 @@ jobs:
           destination: tr1
       - store_test_results:
           path: test-reports/
+  
   deploy:
     steps:
       - checkout
