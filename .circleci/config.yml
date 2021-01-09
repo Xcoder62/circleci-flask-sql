@@ -1,4 +1,8 @@
 version: 2
+
+orbs:
+  heroku: circleci/heroku@0.0.10.
+
 jobs:
   build:
     docker:
@@ -58,7 +62,8 @@ jobs:
           path: test-reports/
   
   deploy:
-    docker:
+    machine:
+      enabled: true
     steps:
       - checkout
       - run:
